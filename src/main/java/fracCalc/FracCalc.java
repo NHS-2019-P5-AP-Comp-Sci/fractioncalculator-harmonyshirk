@@ -12,7 +12,13 @@ public class FracCalc {
         System.out.println("Hi! Welcome to the FracCalc!");
         System.out.print("Please enter a fraction problem: ");
         String userResponse = userInput.nextLine();
-        System.out.println(produceAnswer(userResponse));
+        while (!userResponse.equals("quit")) {
+        	System.out.println(produceAnswer(userResponse));
+        	System.out.print("Please enter a fraction problem: ");
+            userResponse = userInput.nextLine();
+        	
+        }
+        
 
     }
 
@@ -26,22 +32,82 @@ public class FracCalc {
     //      e.g. return ==> "1_1/4"
     public static String produceAnswer(String input) {
        
-    	String temporary = input;
-    	String operand1 = temporary.substring(0, temporary.indexOf(' '));
-    	temporary = temporary.substring(temporary.indexOf(' ') + 1);
-    	String operator = temporary.substring(0, temporary.indexOf(' '));
-    	temporary = temporary.substring(temporary.indexOf(' ') + 1);
-    	String operand2 = temporary;
+    	String temp = input;
+    	String operand1 = temp.substring(0, temp.indexOf(' '));
+    	temp = temp.substring(temp.indexOf(' ') + 1);
+    	String operator = temp.substring(0, temp.indexOf(' '));
+    	temp = temp.substring(temp.indexOf(' ') + 1);
+    	String operand2 = temp;
     	
+    	String op2Whole = findWhole(operand2);
+    	String op2Numerator = findNumerator(operand2);
+    	String op2Denominator = findDenominator(operand2);
     	
-    	 /*Scanner userInput = new Scanner(input);
-    	String operand1 = userInput.next();
-    	String operator = userInput.next();
-    	String operand2 = userInput.next(); **/ 
-    	
-        return operand2;
+        String answer = "whole: " + op2Whole + " " + "numberator: " + 
+        				op2Numerator + " " + "denominator: " + op2Denominator;
+        
+        return answer;
     }
-
-    // TODO: Fill in the space below with any helper methods that you think you will need
+    public static String findWhole(String a) {
+    	  	
+    	if (a.indexOf('_') != -1) {
+    		//mixed number example: 6_3/4
+    		
+    		String underscore = a.substring(0, a.indexOf('_'));
+    	return underscore;
+    	
+    	} else if (a.indexOf('/') != -1) {
+    		//fraction example: 4/5
+    		
+    	String frac = a.substring(0, a.indexOf('/'));
+    	
+    	return "0";
+    	
+    	} else {
+    		// whole number 
+    		
+    		return a;
+   		
+    }    	   	
+}
+    public static String findNumerator(String b) {
+    	 
+    	if (b.indexOf('_') != -1) {
+    		// mixed number
+    		
+    	String mixed = b.substring(b.indexOf('_') + 1, b.indexOf('/'));
+    	
+    	return mixed;
+    	} else if (b.indexOf('/') != -1) {		
+    		//fraction 
+    		
+    		String fract = b.substring(0, b.indexOf('/'));
+    		return fract;
+    		   		
+    	} else {
+    		//whole number
+    		
+    		return "0";
+    		
+    	}   	
+    }
+    
+    public static String findDenominator(String c) {
+    	
+    	if (c.indexOf('/') != -1) {
+    		//mixed number and fraction 
+    		
+    		String mF = c.substring(c.indexOf('/') + 1);
+    		
+    		return mF;
+    		
+    	} else {
+    		//whole number 
+    		
+    		return "0";
+    	}
+    	
+    	
+    }
 
 }
