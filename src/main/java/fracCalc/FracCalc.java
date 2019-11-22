@@ -43,8 +43,8 @@ public class FracCalc {
     	String op2Numerator = findNumerator(operand2);
     	String op2Denominator = findDenominator(operand2);
     	
-        String answer = "whole: " + op2Whole + " " + "numberator: " + 
-        				op2Numerator + " " + "denominator: " + op2Denominator;
+        String answer = "whole:" + op2Whole + " " + "numerator:" + 
+        				op2Numerator + " " + "denominator:" + op2Denominator;
         
         return answer;
     }
@@ -104,7 +104,7 @@ public class FracCalc {
     	} else {
     		//whole number 
     		
-    		return "0";
+    		return "1";
     	}
     	
     	
