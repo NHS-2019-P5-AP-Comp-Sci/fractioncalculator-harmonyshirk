@@ -49,14 +49,22 @@ public class FracCalc {
         int num1;
         int num2;
         if(term1.indexOf("-") != -1 && term1.indexOf("_") != -1) {
-            num1 = (Integer.parseInt(findWhole(term1)) * Integer.parseInt(findDenom(term1))) - Integer.parseInt(findNum(term1));    
+            num1 = (Integer.parseInt(findWhole(term1)) * 
+            		Integer.parseInt(findDenom(term1))) - 
+            		Integer.parseInt(findNum(term1));    
         } else {
-            num1 = Integer.parseInt(findNum(term1)) + (Integer.parseInt(findWhole(term1)) * Integer.parseInt(findDenom(term1)));    
+            num1 = Integer.parseInt(findNum(term1)) + 
+            		(Integer.parseInt(findWhole(term1)) * 
+            				Integer.parseInt(findDenom(term1)));    
         }
         if(term2.indexOf("-") != -1 && term2.indexOf("_") != -1) {
-            num2 = (Integer.parseInt(findWhole(term2)) * Integer.parseInt(findDenom(term2))) - Integer.parseInt(findNum(term2));        
+            num2 = (Integer.parseInt(findWhole(term2)) * 
+            		Integer.parseInt(findDenom(term2))) - 
+            		Integer.parseInt(findNum(term2));        
         } else {
-            num2 = Integer.parseInt(findNum(term2)) + (Integer.parseInt(findWhole(term2)) * Integer.parseInt(findDenom(term2)));
+            num2 = Integer.parseInt(findNum(term2)) + 
+            		(Integer.parseInt(findWhole(term2)) * 
+            				Integer.parseInt(findDenom(term2)));
         }
        
         int denom1 = Integer.parseInt(findDenom(term1));
@@ -64,24 +72,113 @@ public class FracCalc {
        
      // calculations
         int finalNum, finalDenom;
+        
         if(op.equals("+")) {
+        	
+        	//reduce
+        	String reduced = reduce(((num1 * denom2) + (num2 * denom1)), (denom1 * denom2));
+        	
             finalNum = (num1 * denom2) + (num2 * denom1);
             finalDenom = denom1 * denom2;
+            
+         // what if the denominator is negative but numerator is positive?
+            if (finalDenom < 0) {
+            	return reduce(-finalNum, Math.abs(finalDenom));
+            }
+            
         } else if(op.equals("-")) {
+        	
+        	//reduce
+        	String reduced = reduce((num1 * denom2), (num2 * denom1));
+        	
             finalNum = (num1 * denom2) - (num2 * denom1);
             finalDenom = denom1 * denom2;
+            
+         // what if the denominator is negative but numerator is positive?
+            if (finalDenom < 0) {
+            	return reduce(-finalNum, Math.abs(finalDenom));
+            }
+            
         } else if(op.equals("/")) {
+        	
+        	//reduce
+        	String reduced = reduce((num1 * denom2), (num2 * denom1));
+        	
             finalNum = num1 * denom2;
             finalDenom = num2 * denom1;
+            
+            // what if the denominator is negative but numerator is positive?
+            if (finalDenom < 0) {
+            	return reduce(-finalNum, Math.abs(finalDenom));
+            }
+            
         } else if(op.equals("*")) {
+        	
+        	String reduced = reduce((num1 * num2), (denom1 * denom2));
             finalNum = num1 * num2;
             finalDenom = denom1 * denom2;
+            
+            // what if the denominator is negative but numerator is positive?
+            if (finalDenom < 0) {
+            	return reduce(-finalNum, Math.abs(finalDenom));
+            }
+            
         } else {
-            return "Invalid expression";   
+        	
+           return "Invalid expression";   
         }
                    
-        return finalNum + "/" + finalDenom;
+        return reduce(finalNum, finalDenom);
+        
     }
+    public static int gcf(int numerator, int denominator) {
+   	 
+    	int temp; 
+    	while (numerator != 0 && denominator != 0) {
+    		
+    		temp = denominator;
+    		denominator = numerator % denominator;
+    		numerator = temp;
+    		
+    	}
+    	
+    	return Math.abs(numerator + denominator);
+    }
+   public static String reduce(int num, int den) { //not reduced numerator and denominator
+	   
+	   int gcf = gcf(num, den);
+	   num = num/ gcf;
+	   den = den / gcf;
+	  
+	   // what if denominator is 1?
+	 if (den == 1) {
+		   
+		   return "" + num;
+		   
+		  // simplify to a whole number ex: 4/2 -> 2
+       } else if (num % den == 0 && den != 0) {
+	 
+    		   return "" + (num / den);
+ 
+    	   // simplify to a mixed fraction ex: 17/8 -> 2_1/8
+       } else if (num % den != 0 || -(num % den) != 0) {
+    
+    	   //unless the mixed fraction can be simplified into a whole number
+    	   if ((num / den) == 0) {
+    		   
+    		   return num + "/" + den;
+    	   }
+    	   int numRemainder = Math.abs(num % den);
+    	   return (num / den) + "_" + numRemainder + "/" + Math.abs(den);
+    	     	   
+       } else {
+		   
+	   return num + "/" + Math.abs(den);
+	   
+	   }
+	   
+   }
+   
     public static String findWhole(String a) {
            
         if (a.indexOf('_') != -1) {
