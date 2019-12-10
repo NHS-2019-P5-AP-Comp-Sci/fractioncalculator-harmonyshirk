@@ -7,12 +7,14 @@ import java.util.Scanner;
 
 public class FracCalc {
  
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
+    	//user input 
         Scanner userInput = new Scanner (System.in);
         System.out.println("Hi! Welcome to the FracCalc!");
         System.out.print("Please enter a fraction problem: ");
         String userResponse = userInput.nextLine();
+        
+        //to stop program
         while (!userResponse.equals("quit")) {
             System.out.println(produceAnswer(userResponse));
             System.out.print("Please enter a fraction problem: ");
@@ -32,9 +34,7 @@ public class FracCalc {
     // The function should return the result of the fraction after it has been calculated
     //      e.g. return ==> "1_1/4"
     public static String produceAnswer(String input) {
-        boolean term1Neg = false;
-        boolean term2Neg = false;
-       
+    	
         // identifies operator
         String op = input.substring(input.indexOf(" ") + 1);
         op = op.substring(0, op.indexOf(" "));
@@ -48,6 +48,7 @@ public class FracCalc {
         // separates into numerators and denominators
         int num1;
         int num2;
+        
         if(term1.indexOf("-") != -1 && term1.indexOf("_") != -1) {
             num1 = (Integer.parseInt(findWhole(term1)) * 
             		Integer.parseInt(findDenom(term1))) - 
@@ -114,7 +115,9 @@ public class FracCalc {
             
         } else if(op.equals("*")) {
         	
+        	//reduce
         	String reduced = reduce((num1 * num2), (denom1 * denom2));
+        	
             finalNum = num1 * num2;
             finalDenom = denom1 * denom2;
             
@@ -179,12 +182,14 @@ public class FracCalc {
 	   
    }
    
+   //identifies the whole number in the fraction
     public static String findWhole(String a) {
            
         if (a.indexOf('_') != -1) {
             //mixed number example: 6_3/4
            
             String underscore = a.substring(0, a.indexOf('_'));
+            
         return underscore;
        
         } else if (a.indexOf('/') != -1) {
@@ -201,6 +206,7 @@ public class FracCalc {
        
     }          
 }
+    //identifies the numerator in the fraction
     public static String findNum(String b) {
          
         if (b.indexOf('_') != -1) {
@@ -222,7 +228,7 @@ public class FracCalc {
            
         }      
     }
-   
+   //identifies the denominator in the fraction
     public static String findDenom(String c) {
        
         if (c.indexOf('/') != -1) {
